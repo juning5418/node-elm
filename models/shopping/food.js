@@ -13,6 +13,7 @@ const foodSchema = new Schema({
 	attrs: {type: Array, default: []},
 	description: {type: String, default: ""},
 	month_sales: {type: Number, default: 0},
+    stock:{type: Number, default: 0},
 	rating_count: {type: Number, default: 0},
 	tips: String,
 	image_path: String,
@@ -29,7 +30,7 @@ const foodSchema = new Schema({
 	specfoods: [{
 		original_price: {type: Number, default: 0},
 		sku_id: {type: Number, isRequired: true},
-		name: {type: String, isRequired: true},
+        name: {type: String, isRequired: true},
 		pinyin_name: {type: String, default: ""},
 		restaurant_id: {type: Number, isRequired: true},
 		food_id: {type: Number, isRequired: true},
@@ -42,7 +43,7 @@ const foodSchema = new Schema({
 		is_essential: {type: Boolean, default: false},
 		item_id: {type: Number, isRequired: true},
 		checkout_mode: {type: Number, default: 1},
-		stock: {type: Number, default: 1000},
+		stock: {type: Number, default: 0},
 		specs_name: String,
 		specs: [
 			{

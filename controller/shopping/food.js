@@ -9,19 +9,37 @@ class Food extends BaseComponent{
 	constructor(){
 		super();
 		this.defaultData = [{
-			name: '热销榜',
+			name: '文',
 			description: '大家喜欢吃，才叫真好吃。', 
 			icon_url: "5da3872d782f707b4c82ce4607c73d1ajpeg",
 			is_selected: true,
 			type: 1,
 			foods: [],
 		}, {
-			name: '优惠',
+			name: '房',
 			description: '美味又实惠, 大家快来抢!', 
 			icon_url: "4735c4342691749b8e1a531149a46117jpeg",
 			type: 1,
 			foods: [],
-		}]
+		}, {
+            name: '器',
+            description: '美味又实惠, 大家快来抢!',
+            icon_url: "4735c4342691749b8e1a531149a46117jpeg",
+            type: 1,
+            foods: [],
+        }, {
+            name: '饰',
+            description: '美味又实惠, 大家快来抢!',
+            icon_url: "4735c4342691749b8e1a531149a46117jpeg",
+            type: 1,
+            foods: [],
+        }, {
+            name: '食',
+            description: '美味又实惠, 大家快来抢!',
+            icon_url: "4735c4342691749b8e1a531149a46117jpeg",
+            type: 1,
+            foods: [],
+        }]
 		this.initData = this.initData.bind(this);
 		this.addFood = this.addFood.bind(this);
 		this.getCategory = this.getCategory.bind(this);
@@ -43,9 +61,9 @@ class Food extends BaseComponent{
 			const newFood = new MenuModel(Category);
 			try{
 				await newFood.save();
-				console.log('初始化食品数据成功');
+				console.log('初始化商品数据成功');
 			}catch(err){
-				console.log('初始化食品数据失败');
+				console.log('初始化商品数据失败');
 				throw new Error(err);
 			}
 		}
@@ -59,7 +77,7 @@ class Food extends BaseComponent{
 				category_list,
 			})
 		}catch(err){
-			console.log('获取餐馆食品种类失败');
+			console.log('获取餐馆商品种类失败');
 			res.send({
 				status: 0,
 				type: 'ERROR_GET_DATA',
@@ -72,7 +90,7 @@ class Food extends BaseComponent{
 		form.parse(req, async (err, fields, files) => {
 			try{
 				if (!fields.name) {
-					throw new Error('必须填写食品类型名称');
+					throw new Error('必须填写商品类型名称');
 				}else if(!fields.restaurant_id){
 					throw new Error('餐馆ID错误');
 				}
@@ -108,7 +126,7 @@ class Food extends BaseComponent{
 				await newFood.save();
 				res.send({
 					status: 1,
-					success: '添加食品种类成功',
+					success: '添加商品种类成功',
 				})
 			}catch(err){
 				console.log('保存数据失败');
@@ -125,15 +143,15 @@ class Food extends BaseComponent{
 		form.parse(req, async (err, fields, files) => {
 			try{
 				if (!fields.name) {
-					throw new Error('必须填写食品名称');
+					throw new Error('必须填写商品名称');
 				}else if(!fields.image_path){
-					throw new Error('必须上传食品图片');
+					throw new Error('必须上传商品图片');
 				}else if(!fields.specs.length){
 					throw new Error('至少填写一种规格');
 				}else if(!fields.category_id){
-					throw new Error('食品类型ID错误');
+					throw new Error('商品类型ID错误');
 				}else if(!fields.restaurant_id){
-					throw new Error('餐馆ID错误');
+					throw new Error('商店ID错误');
 				}
 			}catch(err){
 				console.log('前台参数错误', err.message);
@@ -150,11 +168,11 @@ class Food extends BaseComponent{
 				category = await MenuModel.findOne({id: fields.category_id});
 				restaurant = await ShopModel.findOne({id: fields.restaurant_id});
 			}catch(err){
-				console.log('获取食品类型和餐馆信息失败');
+				console.log('获取商品类型和餐馆信息失败');
 				res.send({
 					status: 0,
 					type: 'ERROR_DATA',
-					message: '添加食品失败'
+					message: '添加商品失败'
 				})
 				return
 			}
@@ -166,7 +184,7 @@ class Food extends BaseComponent{
 				res.send({
 					status: 0,
 					type: 'ERROR_DATA',
-					message: '添加食品失败'
+					message: '添加商品失败'
 				})
 				return
 			}
@@ -177,6 +195,7 @@ class Food extends BaseComponent{
 				name: fields.name,
 				description: fields.description,
 				image_path: fields.image_path,
+				stock: fields.stock,
 				activity: null,
 				attributes: [],
 				restaurant_id: fields.restaurant_id,
@@ -227,7 +246,7 @@ class Food extends BaseComponent{
 				res.send({
 					status: 0,
 					type: 'ERROR_DATA',
-					message: '添加食品失败'
+					message: '添加商品失败'
 				})
 				return
 			}
@@ -238,14 +257,14 @@ class Food extends BaseComponent{
 				await category.save();
 				res.send({
 					status: 1,
-					success: '添加食品成功',
+					success: '添加商品成功',
 				});
 			}catch(err){
-				console.log('保存食品到数据库失败', err);
+				console.log('保存商品到数据库失败', err);
 				res.send({
 					status: 0,
 					type: 'ERROR_DATA',
-					message: '添加食品失败'
+					message: '添加商品失败'
 				})
 			}
 		})
@@ -266,7 +285,8 @@ class Food extends BaseComponent{
 				specs: [],
 				specs_name: fields.specs[0].specs,
 				name: fields.name,
-				item_id,
+                stock: fields.stock,
+                item_id,
 				sku_id,
 				food_id,
 				restaurant_id: fields.restaurant_id,
@@ -295,7 +315,8 @@ class Food extends BaseComponent{
 					}],
 					specs_name: fields.specs[i].specs,
 					name: fields.name,
-					item_id,
+                    stock: fields.stock,
+                    item_id,
 					sku_id,
 					food_id,
 					restaurant_id: fields.restaurant_id,
@@ -329,11 +350,11 @@ class Food extends BaseComponent{
 			const menu = await MenuModel.find(filter, '-_id');
 			res.send(menu);
 		}catch(err){
-			console.log('获取食品数据失败', err);
+			console.log('获取商品数据失败', err);
 			res.send({
 				status: 0,
 				type: 'GET_DATA_ERROR',
-				message: '获取食品数据失败'
+				message: '获取商品数据失败'
 			})
 		}
 	}
@@ -371,11 +392,11 @@ class Food extends BaseComponent{
 			const foods = await FoodModel.find(filter, '-_id').sort({item_id: -1}).limit(Number(limit)).skip(Number(offset));
 			res.send(foods);
 		}catch(err){
-			console.log('获取食品数据失败', err);
+			console.log('获取商品数据失败', err);
 			res.send({
 				status: 0,
 				type: 'GET_DATA_ERROR',
-				message: '获取食品数据失败'
+				message: '获取商品数据失败'
 			})
 		}
 	}
@@ -393,11 +414,11 @@ class Food extends BaseComponent{
 				count,
 			})
 		}catch(err){
-			console.log('获取食品数量失败', err);
+			console.log('获取商品数量失败', err);
 			res.send({
 				status: 0,
 				type: 'ERROR_TO_GET_COUNT',
-				message: '获取食品数量失败'
+				message: '获取商品数量失败'
 			})
 		}
 	}
@@ -405,7 +426,7 @@ class Food extends BaseComponent{
 		const form = new formidable.IncomingForm();
 		form.parse(req, async (err, fields, files) => {
 			if (err) {
-				console.log('获取食品信息form出错', err);
+				console.log('获取商品信息form出错', err);
 				res.send({
 					status: 0,
 					type: 'ERROR_FORM',
@@ -413,21 +434,23 @@ class Food extends BaseComponent{
 				})
 				return 
 			}
-			const {name, item_id, description = "", image_path, category_id, new_category_id} = fields;
+			const {name, item_id, description = "", image_path, category_id, new_category_id,stock} = fields;
 			try{
 				if (!name) {
-					throw new Error('食品名称错误');
+					throw new Error('商品名称错误');
 				}else if(!item_id || !Number(item_id)){
-					throw new Error('食品ID错误');
+					throw new Error('商品ID错误');
 				}else if(!category_id || !Number(category_id)){
-					throw new Error('食品分类ID错误');
+					throw new Error('商品分类ID错误');
 				}else if(!image_path){
-					throw new Error('食品图片地址错误');
-				}
+					throw new Error('商品图片地址错误');
+				}else if(!stock){
+                    throw new Error('库存错误');
+                }
 				const [specfoods, specifications] = await this.getSpecfoods(fields, item_id);
 				let newData;
 				if (new_category_id !== category_id) {
-					newData = {name, description, image_path, category_id: new_category_id, specfoods, specifications};
+					newData = {name,stock, description, image_path, category_id: new_category_id, specfoods, specifications};
 					const food = await FoodModel.findOneAndUpdate({item_id}, {$set: newData});
 
 					const menu = await MenuModel.findOne({id: category_id})
@@ -441,7 +464,7 @@ class Food extends BaseComponent{
 					await subFood.remove()
 					await menu.save()
 				}else{
-					newData = {name, description, image_path, specfoods, specifications};
+					newData = {name, stock,description, image_path, specfoods, specifications};
 					const food = await FoodModel.findOneAndUpdate({item_id}, {$set: newData});
 
 					const menu = await MenuModel.findOne({id: category_id})
@@ -452,14 +475,14 @@ class Food extends BaseComponent{
 
 				res.send({
 					status: 1,
-					success: '修改食品信息成功',
+					success: '修改商品信息成功',
 				})
 			}catch(err){
 				console.log(err.message, err);
 				res.send({
 					status: 0,
 					type: 'ERROR_UPDATE_FOOD',
-					message: '更新食品信息失败',
+					message: '更新商品信息失败',
 				})
 			}
 		})
@@ -484,14 +507,14 @@ class Food extends BaseComponent{
 			await food.remove()
 			res.send({
 				status: 1,
-				success: '删除食品成功',
+				success: '删除商品成功',
 			})
 		}catch(err){
-			console.log('删除食品失败', err);
+			console.log('删除商品失败', err);
 			res.send({
 				status: 0,
 				type: 'DELETE_FOOD_FAILED',
-				message: '删除食品失败',
+				message: '删除商品失败',
 			})
 		}
 	}

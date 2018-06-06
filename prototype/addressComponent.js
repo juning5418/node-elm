@@ -8,11 +8,11 @@ import BaseComponent from './baseComponent'
 class AddressComponent extends BaseComponent {
 	constructor(){
 		super();
-		this.tencentkey = 'RLHBZ-WMPRP-Q3JDS-V2IQA-JNRFH-EJBHL';
-		this.tencentkey2 = 'RRXBZ-WC6KF-ZQSJT-N2QU7-T5QIT-6KF5X';
-		this.tencentkey3 = 'OHTBZ-7IFRG-JG2QF-IHFUK-XTTK6-VXFBN';
-		this.baidukey = 'fjke3YUipM9N64GdOIh1DNeK2APO2WcT';
-		this.baidukey2 = 'fjke3YUipM9N64GdOIh1DNeK2APO2WcT';
+		this.tencentkey = 'KMSBZ-A7LWD-RYX46-HUCJ6-7HFNQ-RCBB5';
+		this.tencentkey2 = 'I33BZ-HDUK6-4AMSV-MZ4KQ-UT5D2-QCFJ3';
+		this.tencentkey3 = 'BIWBZ-WG4KO-WHVWQ-SQXZA-UCKKS-RRBQJ';
+		this.baidukey = 'B2ujdCumHNkCLNjuwBqw9jCHolNlTsdA';
+		this.baidukey2 = '6ecMYYQGTqSADQZvYN9Mqgf40yO1mwKI';
 	}
 	//获取定位地址
 	async guessPosition(req){
@@ -23,9 +23,16 @@ class AddressComponent extends BaseComponent {
 	 		req.connection.socket.remoteAddress;
 	 		const ipArr = ip.split(':');
 	 		ip = ipArr[ipArr.length -1];
-	 		if (process.env.NODE_ENV == 'development') {
+            // console.log('ip:'+ip);
+
+            if (process.env.NODE_ENV == 'development') {
 	 			ip = '180.158.102.141';
+				// ip = '127.0.0.1';
 	 		}
+
+	 		if(ip=='127.0.0.1'){
+            	ip='122.245.9.48';
+			}
 	 		try{
 		 		let result = await this.fetch('http://apis.map.qq.com/ws/location/v1/ip', {
 		 			ip,

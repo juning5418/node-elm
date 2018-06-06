@@ -8,6 +8,14 @@ name: "品牌商家",
 ranking_weight: 7
 },
 {
+description: "已加入“外卖保”计划，食品安全有保障",
+icon_color: "999999",
+icon_name: "保",
+id: 7,
+name: "外卖保",
+ranking_weight: 6
+},
+{
 description: "新店",
 icon_color: "E8842D",
 icon_name: "新",
@@ -30,5 +38,13 @@ icon_name: "付",
 id: 3,
 name: "在线支付",
 ranking_weight: 2
+},
+{
+description: "准时必达，超时秒赔",
+icon_color: "57A9FF",
+icon_name: "准",
+id: 9,
+name: "准时达",
+ranking_weight: 1
 }
 ]

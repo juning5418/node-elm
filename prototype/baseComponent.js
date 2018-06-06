@@ -5,8 +5,8 @@ import path from 'path'
 import fs from 'fs'
 import qiniu from 'qiniu'
 import gm from 'gm'
-qiniu.conf.ACCESS_KEY = 'Ep714TDrVhrhZzV2VJJxDYgGHBAX-KmU1xV1SQdS';
-qiniu.conf.SECRET_KEY = 'XNIW2dNffPBdaAhvm9dadBlJ-H6yyCTIJLxNM_N6';
+qiniu.conf.ACCESS_KEY = 'oIMdxFQKqyWuqoKVlZFW9hOe1AznaqYv6v_Lxa-P';
+qiniu.conf.SECRET_KEY = '9kl4lo0j1uqicXIM3ZXVFyVlKDKExbvDHwWVfXvT';
 
 
 export default class BaseComponent {
@@ -79,7 +79,7 @@ export default class BaseComponent {
 	async uploadImg(req, res, next){
 		const type = req.params.type;
 		try{
-			//const image_path = await this.qiniu(req, type);
+			// const image_path = await this.qiniu(req, type);
 			const image_path = await this.getPath(req);
 			res.send({
 				status: 1,
@@ -112,17 +112,20 @@ export default class BaseComponent {
 				const fullName = imgName + path.extname(files.file.name);
 				const repath = './public/img/' + fullName;
 				try{
-					await fs.rename(files.file.path, repath);
-					gm(repath)
-					.resize(200, 200, "!")
-					.write(repath, async (err) => {
-						// if(err){
-						// 	console.log('裁切图片失败');
-						// 	reject('裁切图片失败');
-						// 	return
-						// }
-						resolve(fullName)
-					})
+					await fs.rename(files.file.path, repath,function (res) {
+
+                    });
+                    gm(repath)
+                        .resize(200, 200, "!")
+                        .write(repath, async (err) => {
+                            // if(err){
+                            // 	console.log('裁切图片失败');
+                            // 	reject('裁切图片失败');
+                            // 	return
+                            // }
+                            resolve(fullName)
+                        })
+
 				}catch(err){
 					console.log('保存图片失败', err);
 					fs.unlink(files.file.path)
@@ -150,14 +153,20 @@ export default class BaseComponent {
 				const repath = './public/img/' + imgName + extname;
 				try{
 					const key = imgName + extname;
-					await fs.rename(files.file.path, repath);
-					const token = this.uptoken('node-elm', key);
-					const qiniuImg = await this.uploadFile(token.toString(), key, repath);
-					fs.unlink(repath);
-					resolve(qiniuImg)
+					await fs.rename(files.file.path, repath,function (res) {
+
+                    });
+                    const token = this.uptoken('self', key);
+                    const qiniuImg = await this.uploadFile(token.toString(), key, repath);
+                    fs.unlink(repath,function (res) {
+						
+                    });
+                    resolve(qiniuImg)
 				}catch(err){
 					console.log('保存至七牛失败', err);
-					fs.unlink(files.file.path)
+					fs.unlink(files.file.path,function (res) {
+						
+                    })
 					reject('保存至七牛失败')
 				}
 			});

@@ -34,7 +34,9 @@ Ids.findOne((err, data) => {
 			sku_id: 0, 
 			admin_id: 0,
 			statis_id: 0,
-		});
+            shop_id: 0
+
+        });
 		newIds.save();
 	}
 })
