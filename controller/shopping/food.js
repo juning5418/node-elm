@@ -400,6 +400,28 @@ class Food extends BaseComponent{
 			})
 		}
 	}
+
+
+    async getFoodDetal(req, res, next){
+        const {restaurant_id,item_id, limit = 20, offset = 0} = req.query;
+        try{
+            let filter = {};
+            if (restaurant_id && Number(restaurant_id) && item_id && Number(item_id)) {
+                filter = {restaurant_id,item_id}
+            }
+
+            const foods = await FoodModel.find(filter, '-_id').sort({item_id: -1}).limit(Number(limit)).skip(Number(offset));
+            res.send(foods);
+        }catch(err){
+            console.log('获取商品数据失败', err);
+            res.send({
+                status: 0,
+                type: 'GET_DATA_ERROR',
+                message: '获取商品数据失败'
+            })
+        }
+    }
+
 	async getFoodsCount(req, res, next){
 		const restaurant_id = req.query.restaurant_id;
 		try{

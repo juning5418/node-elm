@@ -21,6 +21,7 @@ router.get('/v2/menu', Food.getMenu);
 router.get('/v2/menu/:category_id', Food.getMenuDetail);
 router.get('/v2/foods', Food.getFoods);
 router.get('/v2/foods/count', Food.getFoodsCount);
+router.get('/v2/foods/getFoodDetal', Food.getFoodDetal);
 router.post('/v2/updatefood', Check.checkAdmin, Food.updateFood);
 router.delete('/v2/food/:food_id', Check.checkSuperAdmin, Food.deleteFood);
 router.get('/v2/restaurant/category', Category.getCategories);
