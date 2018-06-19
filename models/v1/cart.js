@@ -22,7 +22,9 @@ const cartSchema = Schema({
 					packing_fee: Number,
 					sku_id: Number,
 					stock: Number,
-				}
+                    image_path: String,
+
+                }
 			]
 		],
 		extra: [{

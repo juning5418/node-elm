@@ -27,6 +27,7 @@ const orderSchema = new Schema({
 					attrs: [],
 					new_specs: [],
 					name: String,
+					image:String,
 					price: Number,
 					quantity: Number,
 					specs: [String]
