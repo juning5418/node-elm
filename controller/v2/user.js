@@ -28,7 +28,7 @@ class User extends AddressComponent {
 		}
 		const form = new formidable.IncomingForm();
 		form.parse(req, async (err, fields, files) => {
-			const {username, password, captcha_code} = fields;
+			const {username, password, captcha_code,type} = fields;
 			try{
 				if (!username) {
 					throw new Error('用户名参数错误');
@@ -58,7 +58,7 @@ class User extends AddressComponent {
 			try{
 				const user = await UserModel.findOne({username});
 				//创建一个新的用户
-				if (!user) {
+				if (!user && type==2) {
 					const user_id = await this.getId('user_id');
 					const cityInfo = await this.guessPosition(req);
 					const registe_time = dtime().format('YYYY-MM-DD HH:mm');
@@ -80,7 +80,15 @@ class User extends AddressComponent {
 				}else{
 					req.session.user_id = user.user_id;
 					const userinfo = await UserInfoModel.findOne({user_id: user.user_id}, '-_id');
-					res.send(userinfo) 
+					if(!userinfo){
+                        res.send({
+                            status: 0,
+                            type: 'SAVE_USER_FAILED',
+                            message: '登陆失败',
+                        })
+					}else{
+                        res.send(userinfo);
+                    }
 				}
 			}catch(err){
 				console.log('用户登陆失败', err);

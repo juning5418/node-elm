@@ -146,8 +146,8 @@ class Food extends BaseComponent{
 					throw new Error('必须填写商品名称');
 				}else if(!fields.image_path){
 					throw new Error('必须上传商品图片');
-				}else if(!fields.specs.length){
-					throw new Error('至少填写一种规格');
+				// }else if(!fields.specs.length){
+				// 	throw new Error('至少填写一种规格');
 				}else if(!fields.category_id){
 					throw new Error('商品类型ID错误');
 				}else if(!fields.restaurant_id){
@@ -162,20 +162,20 @@ class Food extends BaseComponent{
 				})
 				return
 			}
-			let category;
-			let restaurant;
-			try{
-				category = await MenuModel.findOne({id: fields.category_id});
-				restaurant = await ShopModel.findOne({id: fields.restaurant_id});
-			}catch(err){
-				console.log('获取商品类型和餐馆信息失败');
-				res.send({
-					status: 0,
-					type: 'ERROR_DATA',
-					message: '添加商品失败'
-				})
-				return
-			}
+			// let category;
+			// let restaurant;
+			// try{
+				// category = await MenuModel.findOne({id: fields.category_id});
+				// restaurant = await ShopModel.findOne({id: fields.restaurant_id});
+			// }catch(err){
+			// 	console.log('获取商品类型和餐馆信息失败');
+			// 	res.send({
+			// 		status: 0,
+			// 		type: 'ERROR_DATA',
+			// 		message: '添加商品失败'
+			// 	})
+			// 	return
+			// }
 			let item_id;
 			try{
 				item_id = await this.getId('item_id');
@@ -210,13 +210,13 @@ class Food extends BaseComponent{
 				specfoods: [],
 				specifications: [],
 			}
-			if (fields.activity) {
-				newFood.activity = {
-					image_text_color: 'f1884f',
-					icon_color: 'f07373',
-					image_text: fields.activity,
-				}
-			}
+			// if (fields.activity) {
+			// 	newFood.activity = {
+			// 		image_text_color: 'f1884f',
+			// 		icon_color: 'f07373',
+			// 		image_text: fields.activity,
+			// 	}
+			// }
 			if (fields.attributes.length) {
 				fields.attributes.forEach(item => {
 					let attr;
@@ -252,9 +252,9 @@ class Food extends BaseComponent{
 			}
 			try{
 				const foodEntity = await FoodModel.create(newFood);
-				category.foods.push(foodEntity);
-				category.markModified('foods');
-				await category.save();
+				// category.foods.push(foodEntity);
+				// category.markModified('foods');
+				// await category.save();
 				res.send({
 					status: 1,
 					success: '添加商品成功',

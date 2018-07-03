@@ -11,6 +11,8 @@ import Captchas from '../controller/v1/captchas'
 import User from '../controller/v2/user'
 import Order from '../controller/v1/order'
 import Hongbao from '../controller/promotion/hongbao'
+import Banner from "../controller/admin/banner";
+import Keywords from "../controller/shopping/keyword";
 const baseHandle = new BaseComponent();
 const router = express.Router();
 
@@ -33,6 +35,9 @@ router.get('/addresse/:address_id', Address.getAddAddressById);
 router.delete('/users/:user_id/addresses/:address_id', Address.deleteAddress);
 router.post('/users/:user_id/carts/:cart_id/orders', Order.postOrder);
 router.post('/users/:user_id/hongbao/exchange', Hongbao.exchange);
+
+router.get('/banners', Banner.getBanners);
+router.get('/getKeywords',  Keywords.getKeywords);
 
  
 export default router
