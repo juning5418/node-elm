@@ -110,7 +110,8 @@ class Order extends BaseComponent{
 		})
 	}
 	async getOrders(req, res, next){
-		const user_id = req.params.user_id;
+        const UID = req.session.user_id;
+        const user_id = UID;
 		const {limit = 0, offset = 0} = req.query;
 		try{
 			if(!user_id || !Number(user_id)){
@@ -131,17 +132,6 @@ class Order extends BaseComponent{
 		}
 		try{
 			const orders = await OrderModel.find({user_id}).sort({id: -1}).limit(Number(limit)).skip(Number(offset));
-			const timeNow = new Date().getTime();
-			orders.map(item => {
-				if (timeNow - item.order_time < 900000) {
-					item.status_bar.title = '等待支付';
-				}else{
-					item.status_bar.title = '支付超时';
-				}
-				item.time_pass = Math.ceil((timeNow - item.order_time)/1000);
-				item.save()
-				return item
-			})
 			res.send(orders);
 		}catch(err){
 			console.log('获取订单列表失败', err);
