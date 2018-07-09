@@ -13,6 +13,7 @@ import Order from '../controller/v1/order'
 import Hongbao from '../controller/promotion/hongbao'
 import Banner from "../controller/admin/banner";
 import Keywords from "../controller/shopping/keyword";
+import Indextype from "../controller/admin/indextype";
 const baseHandle = new BaseComponent();
 const router = express.Router();
 
@@ -38,6 +39,7 @@ router.post('/users/:user_id/hongbao/exchange', Hongbao.exchange);
 
 router.get('/banners', Banner.getBanners);
 router.get('/getKeywords',  Keywords.getKeywords);
+router.get('/indexTypes', Indextype.getIndextype);
 
  
 export default router

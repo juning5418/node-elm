@@ -17,7 +17,8 @@ const idsSchema = new mongoose.Schema({
 	statis_id: Number,
     banner_id:Number,
     category_goods_id:Number,
-	keywords_id:Number
+	keywords_id:Number,
+    indexType_id:Number
 
 });
 
@@ -41,7 +42,8 @@ Ids.findOne((err, data) => {
             shop_id: 0,
             banner_id:0,
             category_goods_id:8,
-            keywords_id:0
+            keywords_id:0,
+            indexType_id:0
 
         });
 		newIds.save();

@@ -4,6 +4,7 @@ import express from 'express'
 import Admin from '../controller/admin/admin'
 import Banner from "../controller/admin/banner";
 import Check from "../middlewares/check";
+import  Indextype from "../controller/admin/indextype";
 import CategoryGoods from "../controller/shopping/categoryGoods";
 import Keywords from "../controller/shopping/keyword"
 const router = express.Router()
@@ -35,6 +36,16 @@ router.delete('/deleteKeywords/:keywords_id', Check.checkAdmin, Keywords.deleteK
 router.get('/getKeywords',  Keywords.getKeywords);
 router.get('/getKeywordsDetal/:id', Keywords.getKeywordsDetal);
 router.get('/getKeywords/count', Keywords.getkeywordsCount);
+
+
+
+router.post('/addIndexType', Indextype.addIndextype);
+router.get('/v2/indexTypes', Indextype.getIndextype);
+router.get('/v2/indexType/count', Indextype.getIndextypeCount);
+router.get('/v2/indexTypes/getIndexTypeDetal/:id', Indextype.getIndexTypeDetal);
+router.delete('/v2/indexTypes/indexType/:id',Indextype.deleteIndexType);
+router.post('/v2/indexTypes/updateIndexTyper',Indextype.updateIndexType);
+
 
 
 export default router

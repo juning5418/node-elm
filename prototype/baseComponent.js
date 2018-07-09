@@ -12,7 +12,7 @@ qiniu.conf.SECRET_KEY = '9kl4lo0j1uqicXIM3ZXVFyVlKDKExbvDHwWVfXvT';
 export default class BaseComponent {
 	constructor(){
 		this.idList = ['restaurant_id', 'food_id', 'order_id', 'user_id', 'address_id', 'cart_id', 'img_id', 'category_id',
-			'item_id', 'sku_id', 'admin_id', 'statis_id','banner_id','category_goods_id','keywords_id'];
+			'item_id', 'sku_id', 'admin_id', 'statis_id','banner_id','category_goods_id','keywords_id','indexType_id'];
 		this.imgTypeList = ['shop', 'food', 'avatar','default'];
 		this.uploadImg = this.uploadImg.bind(this)
 		this.qiniu = this.qiniu.bind(this)
