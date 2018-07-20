@@ -14,13 +14,13 @@ class Banner extends BaseComponent{
         this.getBannersCount = this.getBannersCount.bind(this);
         this.updateBanner = this.updateBanner.bind(this);
         this.deleteBanner = this.deleteBanner.bind(this);
-
+        this.authBanners = this.authBanners.bind(this);
     }
 
     async addBanners(req, res, next){
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
-            const {url, image,name} = fields;
+            const {url, image,name,sort} = fields;
             try{
                 if(!url){
                     throw new Error('地址信息错误');
@@ -41,6 +41,7 @@ class Banner extends BaseComponent{
 
 
             let banner_id;
+            let auth = 0;
             try{
                 banner_id = await this.getId('banner_id');
             }catch(err){
@@ -59,7 +60,9 @@ class Banner extends BaseComponent{
                     banner_id,
                     image,
                     url,
-                    name
+                    name,
+                    sort,
+                    auth
                 }
                 await BannerModel.create(newBanner);
                 res.send({
@@ -77,7 +80,42 @@ class Banner extends BaseComponent{
         })
     }
 
+    async authBanners(req, res, next) {
 
+        const form = new formidable.IncomingForm();
+        form.parse(req, async (err, fields, files) => {
+            if (err) {
+                console.log('获取商品信息form出错', err);
+                res.send({
+                    status: 0,
+                    type: 'ERROR_FORM',
+                    message: '表单信息错误',
+                })
+                return
+            }
+            const {id,auth } = fields;
+            try{
+
+                let newData;
+
+                newData = {auth};
+                const banner = await BannerModel.findOneAndUpdate({id}, {$set: newData});
+
+                res.send({
+                    status: 1,
+                    success: '操作成功',
+                })
+            }catch(err){
+                console.log(err.message, err);
+                res.send({
+                    status: 0,
+                    type: 'ERROR_UPDATE_FOOD',
+                    message: '操作失败',
+                })
+            }
+        })
+
+    }
 
 
     async getBanners(req, res, next){
@@ -158,7 +196,7 @@ class Banner extends BaseComponent{
                 })
                 return
             }
-            const {id,name, image, url } = fields;
+            const {id,name, image, url,sort } = fields;
             try{
                 if (!name) {
                     throw new Error('名称错误');
@@ -169,7 +207,7 @@ class Banner extends BaseComponent{
                 }
                 let newData;
 
-                newData = {name,image, url};
+                newData = {name,image, url,sort};
                 const banner = await BannerModel.findOneAndUpdate({id}, {$set: newData});
 
                 res.send({

@@ -9,6 +9,7 @@ const indexTypeSchema = new Schema({
 	sort: Number,
 	image: String,
 	name:String,
+    auth: {type: Number, default: 0},//审核状态
 })
 
 indexTypeSchema.index({id: 1});

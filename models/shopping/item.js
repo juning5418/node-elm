@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema;
 
 const itemSchema = new Schema({
+	auth: {type: Number, default: 0},//审核状态
 	rating: {type: Number, default: 0},//级别
 	is_featured: {type: Number, default: 0},//特色
 	shop_id: {type: Number, isRequired: true},//店铺id

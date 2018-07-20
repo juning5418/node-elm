@@ -9,6 +9,8 @@ const bannerSchema = new Schema({
 	url: String,
 	image: String,
 	name:String,
+    auth: {type: Number, default: 0},//审核状态
+	sort:Number,
 	banner_id:{type: Number, isRequired: true}
 })
 

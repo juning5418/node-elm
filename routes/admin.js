@@ -22,6 +22,8 @@ router.get('/v2/banners/count', Banner.getBannersCount);
 router.get('/v2/banners/getBannersDetal/:id', Banner.getBannerDetal);
 router.delete('/v2/banners/banner/:id',Banner.deleteBanner);
 router.post('/v2/banners/updateBanner',Banner.updateBanner);
+router.post('/v2/banners/authBanner',Banner.authBanners);
+
 
 
 router.post('/addCategoryGoods', Check.checkAdmin, CategoryGoods.addCategoryGoods);
@@ -45,6 +47,7 @@ router.get('/v2/indexType/count', Indextype.getIndextypeCount);
 router.get('/v2/indexTypes/getIndexTypeDetal/:id', Indextype.getIndexTypeDetal);
 router.delete('/v2/indexTypes/indexType/:id',Indextype.deleteIndexType);
 router.post('/v2/indexTypes/updateIndexTyper',Indextype.updateIndexType);
+router.post('/v2/indexTypes/authIndexTyper',Indextype.authIndexType);
 
 
 

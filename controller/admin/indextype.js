@@ -13,7 +13,7 @@ class Indextype extends BaseComponent{
         this.getIndextypeCount = this.getIndextypeCount.bind(this);
         this.updateIndexType = this.updateIndexType.bind(this);
         this.deleteIndexType = this.deleteIndexType.bind(this);
-
+        this.authIndexType = this.authIndexType.bind(this);
     }
 
     async addIndextype(req, res, next){
@@ -140,6 +140,42 @@ class Indextype extends BaseComponent{
             })
         }
     }
+
+    async authIndexType(req, res, next) {
+        const form = new formidable.IncomingForm();
+        form.parse(req, async (err, fields, files) => {
+            if (err) {
+                console.log('获取信息form出错', err);
+                res.send({
+                    status: 0,
+                    type: 'ERROR_FORM',
+                    message: '信息错误',
+                })
+                return
+            }
+            const {id,auth } = fields;
+            try{
+
+                let newData;
+
+                newData = {auth};
+                const indexType = await IndextypeModel.findOneAndUpdate({id}, {$set: newData});
+
+                res.send({
+                    status: 1,
+                    success: '操作成功',
+                })
+            }catch(err){
+                console.log(err.message, err);
+                res.send({
+                    status: 0,
+                    type: 'ERROR_UPDATE_FOOD',
+                    message: '操作失败',
+                })
+            }
+        })
+    }
+
     async updateIndexType(req, res, next){
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {

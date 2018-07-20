@@ -4,7 +4,8 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema;
 
 const foodSchema = new Schema({
-	rating: {type: Number, default: 0},
+    auth: {type: Number, default: 0},//审核状态
+    rating: {type: Number, default: 0},
 	is_featured: {type: Number, default: 0},
 	restaurant_id: {type: Number, isRequired: true},
 	category_id: {type: Number, isRequired: true},
