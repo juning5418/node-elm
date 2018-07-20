@@ -119,10 +119,14 @@ class Banner extends BaseComponent{
 
 
     async getBanners(req, res, next){
-        const { limit = 20, offset = 0} = req.query;
+        const { auth,limit = 20, offset = 0} = req.query;
         try{
+
             let filter = {};
-            const banners = await BannerModel.find(filter, '-_id').sort({id: -1}).limit(Number(limit)).skip(Number(offset));
+            if (auth && Number(auth)) {
+                filter = {auth}
+            }
+            const banners = await BannerModel.find(filter, '-_id').sort({sort: -1}).limit(Number(limit)).skip(Number(offset));
             res.send(banners);
         }catch(err){
             console.log('获取banner数据失败', err);

@@ -75,9 +75,14 @@ class Indextype extends BaseComponent{
 
 
     async getIndextype(req, res, next){
-        const { limit = 20, offset = 0} = req.query;
+        const { auth,limit = 20, offset = 0} = req.query;
         try{
             let filter = {};
+
+            if (auth && Number(auth)) {
+                filter = {auth}
+            }
+
             const indextype = await IndextypeModel.find(filter, '-_id').sort({sort: -1}).limit(Number(limit)).skip(Number(offset));
             res.send(indextype);
         }catch(err){
