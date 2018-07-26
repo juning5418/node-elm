@@ -49,7 +49,7 @@ class Shop extends AddressComponent{
 			const opening_hours = fields.startTime&&fields.endTime? fields.startTime + '/' + fields.endTime : "8:30/20:30";
 			const newShop = {
 				name: fields.name,
-				address: fields.address,
+				address: fields.address || '',
 				description: fields.description || '',
 				float_delivery_fee: fields.float_delivery_fee || 0,
 				float_minimum_order_amount: fields.float_minimum_order_amount || 0,
@@ -58,7 +58,7 @@ class Shop extends AddressComponent{
 				is_new: fields.new || false,
 				latitude: fields.latitude,
 				longitude: fields.longitude,
-				location: [fields.longitude, fields.latitude],
+				location: [0, 0],
 				opening_hours: [opening_hours],
 				phone: fields.phone,
 				promotion_info: fields.promotion_info || "欢迎光临，用餐高峰请提前下单，谢谢",
@@ -91,66 +91,67 @@ class Shop extends AddressComponent{
 				},
 			}
 			//配送方式
-			if (fields.delivery_mode) {
-				Object.assign(newShop, {delivery_mode: {
-					color: "57A9FF",
-					id: 1,
-					is_solid: true,
-					text: "蜂鸟专送"
-				}})
-			}
-			//商店支持的活动
-			fields.activities.forEach((item, index) => {
-				switch(item.icon_name){
-					case '减': 
-						item.icon_color = 'f07373';
-						item.id = index + 1;
-						break;
-					case '特': 
-						item.icon_color = 'EDC123';
-						item.id = index + 1;
-						break;
-					case '新': 
-						item.icon_color = '70bc46';
-						item.id = index + 1;
-						break;
-					case '领': 
-						item.icon_color = 'E3EE0D';
-						item.id = index + 1;
-						break;
-				}
-				newShop.activities.push(item);
-			})
-			if (fields.bao) {
-				newShop.supports.push({
-					description: "已加入“外卖保”计划，食品安全有保障",
-					icon_color: "999999",
-					icon_name: "保",
-					id: 7,
-					name: "外卖保"
-				})
-			}
-			if (fields.zhun) {
-				newShop.supports.push({
-					description: "准时必达，超时秒赔",
-					icon_color: "57A9FF",
-					icon_name: "准",
-					id: 9,
-					name: "准时达"
-				})
-			}
-			if (fields.piao) {
-				newShop.supports.push({
-					description: "该商家支持开发票，请在下单时填写好发票抬头",
-					icon_color: "999999",
-					icon_name: "票",
-					id: 4,
-					name: "开发票"
-				})
-			}
+			// if (fields.delivery_mode) {
+			// 	Object.assign(newShop, {delivery_mode: {
+			// 		color: "57A9FF",
+			// 		id: 1,
+			// 		is_solid: true,
+			// 		text: "蜂鸟专送"
+			// 	}})
+			// }
+			// //商店支持的活动
+			// fields.activities.forEach((item, index) => {
+			// 	switch(item.icon_name){
+			// 		case '减':
+			// 			item.icon_color = 'f07373';
+			// 			item.id = index + 1;
+			// 			break;
+			// 		case '特':
+			// 			item.icon_color = 'EDC123';
+			// 			item.id = index + 1;
+			// 			break;
+			// 		case '新':
+			// 			item.icon_color = '70bc46';
+			// 			item.id = index + 1;
+			// 			break;
+			// 		case '领':
+			// 			item.icon_color = 'E3EE0D';
+			// 			item.id = index + 1;
+			// 			break;
+			// 	}
+			// 	newShop.activities.push(item);
+			// })
+			// if (fields.bao) {
+			// 	newShop.supports.push({
+			// 		description: "已加入“外卖保”计划，食品安全有保障",
+			// 		icon_color: "999999",
+			// 		icon_name: "保",
+			// 		id: 7,
+			// 		name: "外卖保"
+			// 	})
+			// }
+			// if (fields.zhun) {
+			// 	newShop.supports.push({
+			// 		description: "准时必达，超时秒赔",
+			// 		icon_color: "57A9FF",
+			// 		icon_name: "准",
+			// 		id: 9,
+			// 		name: "准时达"
+			// 	})
+			// }
+			// if (fields.piao) {
+			// 	newShop.supports.push({
+			// 		description: "该商家支持开发票，请在下单时填写好发票抬头",
+			// 		icon_color: "999999",
+			// 		icon_name: "票",
+			// 		id: 4,
+			// 		name: "开发票"
+			// 	})
+			// }
 			try{
 				//保存数据，并增加对应食品种类的数量
 				const shop = new ShopModel(newShop);
+				console.log(newShop);
 				await shop.save();
 				CategoryHandle.addCategory(fields.category)
 				Rating.initData(restaurant_id);
@@ -162,7 +163,8 @@ class Shop extends AddressComponent{
 				})
 			}catch(err){
 				console.log('商铺写入数据库失败');
-				res.send({
+                console.log(err);
+                res.send({
 					status: 0,
 					type: 'ERROR_SERVER',
 					message: '添加商铺失败',
@@ -173,8 +175,8 @@ class Shop extends AddressComponent{
 	//获取餐馆列表
 	async getRestaurants(req, res, next){
 		const {
-			latitude,
-			longitude,
+			latitude = 0,
+			longitude = 0,
 			offset = 0,
 			limit = 20,
 			keyword,
