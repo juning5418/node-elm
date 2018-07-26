@@ -12,7 +12,7 @@ router.post('/addshop', Check.checkAdmin, Shop.addShop);
 router.get('/restaurants', Shop.getRestaurants);
 router.get('/restaurants/count', Shop.getShopCount);
 router.post('/updateshop', Check.checkAdmin, Shop.updateshop);
-router.delete('/restaurant/:restaurant_id', Check.checkSuperAdmin, Shop.deleteResturant);
+router.delete('/restaurant/:restaurant_id', Check.checkAdmin, Shop.deleteResturant);
 router.get('/restaurant/:restaurant_id', Shop.getRestaurantDetail);
 router.post('/addfood', Check.checkAdmin, Food.addFood);
 router.get('/getcategory/:restaurant_id', Food.getCategory);
