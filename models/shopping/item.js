@@ -34,6 +34,7 @@ const itemSchema = new Schema({
 		pinyin_name: {type: String, default: ""},//
 		shop_id: {type: Number, isRequired: true},//
 		packing_fee: {type: Number, default: 0},//
+        delivery_fee:{type: Number, default: 0},
 		recent_rating: {type: Number, default: 0},//
 		promotion_stock: {type: Number, default: -1},//
 		price: {type: Number, default: 0},//

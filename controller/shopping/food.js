@@ -281,7 +281,8 @@ class Food extends BaseComponent{
 			}
 			specfoods.push({
 				packing_fee: fields.specs[0].packing_fee,
-				price: fields.specs[0].price,
+                delivery_fee:fields.specs[0].delivery_fee,
+                price: fields.specs[0].price,
 				specs: [],
 				specs_name: fields.specs[0].specs,
 				name: fields.name,
@@ -308,6 +309,7 @@ class Food extends BaseComponent{
 				}
 				specfoods.push({
 					packing_fee: fields.specs[i].packing_fee,
+                    delivery_fee:fields.specs[i].delivery_fee,
 					price: fields.specs[i].price,
 					specs: [{
 						name: "规格",
@@ -467,7 +469,8 @@ class Food extends BaseComponent{
 				}else if(!image_path){
 					throw new Error('商品图片地址错误');
 				}else if(!stock){
-                    throw new Error('库存错误');
+                    fields.stock=0;
+                    // throw new Error('库存错误');
                 }
 				const [specfoods, specifications] = await this.getSpecfoods(fields, item_id);
 				let newData;
@@ -489,10 +492,10 @@ class Food extends BaseComponent{
 					newData = {name, stock,description, image_path, specfoods, specifications};
 					const food = await FoodModel.findOneAndUpdate({item_id}, {$set: newData});
 
-					const menu = await MenuModel.findOne({id: category_id})
-					let subFood = menu.foods.id(food._id);
-					subFood.set(newData)
-					await menu.save()
+					// const menu = await MenuModel.findOne({id: category_id})
+					// let subFood = menu.foods.id(food._id);
+					// subFood.set(newData)
+					await food.save()
 				}
 
 				res.send({
