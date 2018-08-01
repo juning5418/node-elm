@@ -21,7 +21,8 @@ const userInfoSchema = new Schema({
 	is_email_valid: {type: Boolean, default: false},
 	is_mobile_valid: {type: Boolean, default: true},
 	mobile: {type: String, default: ''},
-	point: {type: Number, default: 0},
+    wx: {type: String, default: ''},
+    point: {type: Number, default: 0},
 	username: String,
 	column_desc: {
 		game_desc: {type: String, default: '玩游戏领红包'},
