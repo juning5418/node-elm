@@ -22,10 +22,8 @@ class Banner extends BaseComponent{
         form.parse(req, async (err, fields, files) => {
             const {url, image,name,sort} = fields;
             try{
-                if(!url){
-                    throw new Error('地址信息错误');
-                }else if(!image){
-                    throw new Error('图片地址信息错误');
+                if(!image){
+                    throw new Error('图片信息错误');
                 }else if(!name){
                     throw new Error('信息错误');
                 }
