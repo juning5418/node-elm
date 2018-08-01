@@ -52,8 +52,7 @@ const shopSchema = new mongoose.Schema({
     },
 	opening_hours: { type: Array, default: ["08:30/20:30"] },
 	phone: {
-        type: String,
-        required: true 
+        type: String
     },
 	piecewise_agent_fee: {
 		tips: String

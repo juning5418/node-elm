@@ -32,8 +32,8 @@ class Shop extends AddressComponent{
 			try{
 				if (!fields.name) {
 					throw new Error('必须填写商店名称');
-				}else if(!fields.phone){
-					throw new Error('必须填写联系电话');
+				// }else if(!fields.phone){
+				// 	throw new Error('必须填写联系电话');
 				}else if(!fields.image_path){
 					throw new Error('必须上传商铺图片');
 				}
