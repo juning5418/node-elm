@@ -81,7 +81,8 @@ export default class BaseComponent {
 		const type = req.params.type;
 		try{
 			// const image_path = await this.qiniu(req, type);
-			const image_path = await this.getPath(req);
+			const image_path = await this.getPath(req,type);
+			console.log(image_path);
 			res.send({
 				status: 1,
 				image_path,
@@ -96,10 +97,10 @@ export default class BaseComponent {
 		}
 	}
 
-	async getPath(req){
+	async getPath(req,type){
 		return new Promise((resolve, reject) => {
 			const form = formidable.IncomingForm();
-			form.uploadDir = './public/img';
+			form.uploadDir = './public/img/'+type;
 			form.parse(req, async (err, fields, files) => {
 				let img_id;
 				try{
@@ -111,13 +112,13 @@ export default class BaseComponent {
 				}
 				const imgName = (new Date().getTime() + Math.ceil(Math.random()*10000)).toString(16) + img_id;
 				const fullName = imgName + path.extname(files.file.name);
-				const repath = './public/img/' + fullName;
+				const repath = './public/img/' + type+'/'+fullName;
 				try{
 					await fs.rename(files.file.path, repath,function (res) {
 
                     });
                     gm(repath)
-                        .resize(200, 200, "!")
+                        // .resize(200, 200, "!")
                         .write(repath, async (err) => {
                             // if(err){
                             // 	console.log('裁切图片失败');
@@ -160,13 +161,13 @@ export default class BaseComponent {
                     const token = this.uptoken('self', key);
                     const qiniuImg = await this.uploadFile(token.toString(), key, repath);
                     fs.unlink(repath,function (res) {
-						
+
                     });
                     resolve(qiniuImg)
 				}catch(err){
 					console.log('保存至七牛失败', err);
 					fs.unlink(files.file.path,function (res) {
-						
+
                     })
 					reject('保存至七牛失败')
 				}
