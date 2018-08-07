@@ -408,14 +408,14 @@ class Food extends BaseComponent{
         const {restaurant_id,item_id, limit = 20, offset = 0} = req.query;
         try{
             let filter = {};
-            // if (restaurant_id && Number(restaurant_id) && item_id && Number(item_id)) {
-            //     filter = {restaurant_id,item_id}
-            // }
-
-
-            if ( item_id && Number(item_id)) {
-                filter = {item_id}
+            if (restaurant_id && Number(restaurant_id) && item_id && Number(item_id)) {
+                filter = {restaurant_id,item_id}
             }
+
+            //
+            // if ( item_id && Number(item_id)) {
+            //     filter = {item_id}
+            // }
 
             const foods = await FoodModel.find(filter, '-_id').sort({item_id: -1}).limit(Number(limit)).skip(Number(offset));
             res.send(foods);
