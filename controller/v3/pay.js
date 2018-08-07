@@ -64,7 +64,7 @@ class Pay {
             body: 'liangxin',
             out_trade_no: order.order_id,
             total_fee: order.total_amount*100,
-            spbill_create_ip: '115.238.142.218',
+            spbill_create_ip: req.ip,
             notify_url: 'http://h5.heptalcc.com/notify',
             trade_type: 'NATIVE'
         }
