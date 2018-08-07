@@ -37,7 +37,7 @@ class Carts extends BaseComponent{
 			let image_path ;
             let payName = "" ;
 
-            console.log(shopid);
+            // console.log(shopid);
 
             for(var i = 0 ;i < entities.length ; i++){
             	var item = entities[i];
@@ -89,7 +89,7 @@ class Carts extends BaseComponent{
                     const newOrder = new OrderModel(orderInfo);
                     const order = await newOrder.save();
                     const cart = await newCart.save();
-                    res.send(cart)
+                    res.send(order)
                 }catch(err){
                     console.log('保存数据失败');
                     res.send({
