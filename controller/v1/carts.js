@@ -38,6 +38,7 @@ class Carts extends BaseComponent{
             let payName = "" ;
 
             // console.log(shopid);
+            console.log(entities);
 
             for(var i = 0 ;i < entities.length ; i++){
             	var item = entities[i];

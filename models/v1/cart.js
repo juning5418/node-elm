@@ -15,6 +15,7 @@ const cartSchema = Schema({
         item_id:String,
         name:String,
         price:Number,
+        shopid:Number,
         specs: [
             {
                 name: String,
